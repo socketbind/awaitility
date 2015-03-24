@@ -232,7 +232,7 @@ public class AwaitilityTest {
     public void awaitWithAliasDisplaysAliasWhenConditionTimeoutExceptionOccurs() throws Exception {
         String alias = "test";
         exception.expect(ConditionTimeoutException.class);
-        exception.expectMessage("Condition with alias 'test' didn't complete within 120 milliseconds because com.jayway.awaitility.classes.FakeRepositoryValue expected a value greater than <0> but was <0>.");
+        exception.expectMessage("Condition with alias 'test' didn't complete within 120 milliseconds because com.jayway.awaitility.classes.FakeRepositoryValue expected a value greater than <0> but <0> was equal to <0>.");
 
         await(alias).atMost(120, MILLISECONDS).until(value(), greaterThan(0));
     }
@@ -254,7 +254,7 @@ public class AwaitilityTest {
     public void awaitWithAliasDisplaysAliasWhenConditionTimeoutExceptionAndConditionIsCallTo() throws Exception {
         String alias = "test";
         exception.expect(ConditionTimeoutException.class);
-        exception.expectMessage("Condition with alias 'test' didn't complete within 120 milliseconds because com.jayway.awaitility.classes.FakeRepositoryImpl.getValue() expected a value greater than <0> but was <0>.");
+        exception.expectMessage("Condition with alias 'test' didn't complete within 120 milliseconds because com.jayway.awaitility.classes.FakeRepositoryImpl.getValue() expected a value greater than <0> but <0> was equal to <0>.");
 
         await(alias).atMost(120, MILLISECONDS).untilCall(to(fakeRepository).getValue(), greaterThan(0));
     }
@@ -268,7 +268,7 @@ public class AwaitilityTest {
     public void awaitDisplaysSupplierAndMatcherNameWhenConditionTimeoutExceptionOccurs() throws Exception {
         exception.expect(ConditionTimeoutException.class);
         exception.expectMessage(FakeRepositoryValue.class.getName()
-                + " expected a value greater than <0> but was <0> within 120 milliseconds.");
+                + " expected a value greater than <0> but <0> was equal to <0> within 120 milliseconds.");
 
         with().pollInterval(10, MILLISECONDS).then().await().atMost(120, MILLISECONDS).until(value(), greaterThan(0));
     }
@@ -299,7 +299,7 @@ public class AwaitilityTest {
             throws Exception {
         exception.expect(ConditionTimeoutException.class);
         exception.expectMessage(FakeRepositoryImpl.class.getName()
-                + ".getValue() expected a value greater than <0> but was <0> within 50 milliseconds.");
+                + ".getValue() expected a value greater than <0> but <0> was equal to <0> within 50 milliseconds.");
 
         new Asynch(fakeRepository).perform();
         with().pollInterval(10, MILLISECONDS).and().timeout(50, MILLISECONDS).await()
