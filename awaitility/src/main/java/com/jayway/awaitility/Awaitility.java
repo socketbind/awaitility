@@ -19,6 +19,8 @@ import com.jayway.awaitility.core.ConditionFactory;
 import com.jayway.awaitility.core.ConditionEvaluationListener;
 import com.jayway.awaitility.core.FieldSupplierBuilder;
 import com.jayway.awaitility.core.MethodCallRecorder;
+import org.hamcrest.Description;
+import org.hamcrest.StringDescription;
 
 import java.util.concurrent.TimeUnit;
 
@@ -130,6 +132,11 @@ public class Awaitility {
     private static volatile ConditionEvaluationListener defaultConditionEvaluationListener = null;
 
     /**
+     * Default mismatch description class
+     */
+    private static volatile Class<? extends Description> defaultMismatchDescriptionClass = StringDescription.class;
+
+    /**
      * Instruct Awaitility to catch uncaught exceptions from other threads by
      * default. This is useful in multi-threaded systems when you want your test
      * to fail regardless of which thread throwing the exception. Default is
@@ -189,7 +196,7 @@ public class Awaitility {
      */
     public static ConditionFactory await(String alias) {
         return new ConditionFactory(alias, defaultTimeout, defaultPollInterval, defaultPollDelay,
-                defaultCatchUncaughtExceptions, defaultConditionEvaluationListener);
+                defaultCatchUncaughtExceptions, defaultConditionEvaluationListener, defaultMismatchDescriptionClass);
     }
 
     /**
@@ -338,6 +345,15 @@ public class Awaitility {
      */
     public static void setDefaultConditionEvaluationListener(ConditionEvaluationListener defaultConditionEvaluationListener) {
         Awaitility.defaultConditionEvaluationListener = defaultConditionEvaluationListener;
+    }
+
+    /**
+     * Sets the default mismatch description class that all await statements will use
+     *
+     * @param mismatchDescriptionClass mismatch description class
+     */
+    public static void setDefaultMismatchDescriptionClass(Class<? extends Description> mismatchDescriptionClass) {
+        Awaitility.defaultMismatchDescriptionClass = mismatchDescriptionClass;
     }
 
     /**

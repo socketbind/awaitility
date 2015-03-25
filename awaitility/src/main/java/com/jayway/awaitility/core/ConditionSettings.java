@@ -16,6 +16,7 @@
 package com.jayway.awaitility.core;
 
 import com.jayway.awaitility.Duration;
+import org.hamcrest.Description;
 
 import static com.jayway.awaitility.Duration.SAME_AS_POLL_INTERVAL;
 
@@ -26,19 +27,20 @@ class ConditionSettings {
     private final Duration pollDelay;
     private final boolean catchUncaughtExceptions;
     private final ConditionEvaluationListener conditionEvaluationListener;
+    private final Class<? extends Description> mismatchDescriptionClass;
 
     /**
      * <p>Constructor for ConditionSettings.</p>
-     *
-     * @param alias                       a {@link java.lang.String} object.
+     * @param alias                       a {@link String} object.
      * @param catchUncaughtExceptions     a boolean.
-     * @param maxWaitTime                 a {@link com.jayway.awaitility.Duration} object.
-     * @param pollInterval                a {@link com.jayway.awaitility.Duration} object.
-     * @param pollDelay                   a {@link com.jayway.awaitility.Duration} object.
+     * @param maxWaitTime                 a {@link Duration} object.
+     * @param pollInterval                a {@link Duration} object.
+     * @param pollDelay                   a {@link Duration} object.
      * @param conditionEvaluationListener a {@link ConditionEvaluationListener} object.
+     * @param mismatchDescriptionClass    description class used for describing mismatches
      */
     public ConditionSettings(String alias, boolean catchUncaughtExceptions, Duration maxWaitTime,
-                             Duration pollInterval, Duration pollDelay, ConditionEvaluationListener conditionEvaluationListener) {
+                             Duration pollInterval, Duration pollDelay, ConditionEvaluationListener conditionEvaluationListener, Class<? extends Description> mismatchDescriptionClass) {
         if (maxWaitTime == null) {
             throw new IllegalArgumentException("You must specify a maximum waiting time (was null).");
         }
@@ -54,6 +56,7 @@ class ConditionSettings {
         this.pollDelay = pollDelay == SAME_AS_POLL_INTERVAL ? pollInterval : pollDelay;
         this.catchUncaughtExceptions = catchUncaughtExceptions;
         this.conditionEvaluationListener = conditionEvaluationListener;
+        this.mismatchDescriptionClass = mismatchDescriptionClass;
     }
 
     /**
@@ -119,4 +122,12 @@ class ConditionSettings {
         return conditionEvaluationListener;
     }
 
+    /**
+     * <p>Getter for the field <code>mismatchDescriptionClass</code></p>
+     *
+     * @return mismatch description class
+     */
+    public Class<? extends Description> getMismatchDescriptionClass() {
+        return mismatchDescriptionClass;
+    }
 }

@@ -17,7 +17,6 @@ package com.jayway.awaitility.core;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.StringDescription;
 
 import java.util.concurrent.Callable;
 
@@ -26,7 +25,10 @@ abstract class AbstractHamcrestCondition<T> implements Condition<T> {
     private ConditionAwaiter conditionAwaiter;
 
     private T lastResult;
+
     private final ConditionEvaluationHandler<T> conditionEvaluationHandler;
+
+    private Class<? extends Description> mismatchDescriptionClass;
 
     /**
      * <p>Constructor for AbstractHamcrestCondition.</p>
@@ -63,6 +65,8 @@ abstract class AbstractHamcrestCondition<T> implements Condition<T> {
                 return getMismatchMessage(supplier, matcher);
             }
         };
+
+        mismatchDescriptionClass = settings.getMismatchDescriptionClass();
     }
 
 
@@ -71,9 +75,19 @@ abstract class AbstractHamcrestCondition<T> implements Condition<T> {
     }
 
     private String getMismatchMessage(Callable<T> supplier, Matcher<? super T> matcher) {
-        Description mismatchDescription = new StringDescription();
+        Description mismatchDescription = makeMismatchDescriptionClass();
         matcher.describeMismatch(lastResult, mismatchDescription);
         return String.format("%s expected %s but %s", getCallableDescription(supplier), HamcrestToStringFilter.filter(matcher), mismatchDescription);
+    }
+
+    private Description makeMismatchDescriptionClass() {
+        try {
+            return mismatchDescriptionClass.newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException("Unable to instantiate mismatch description class " + mismatchDescriptionClass, e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Unable to instantiate mismatch description class " + mismatchDescriptionClass, e);
+        }
     }
 
     /**
