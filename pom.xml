@@ -9,7 +9,7 @@
     <artifactId>awaitility-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.6.4-SNAPSHOT</version>
-    <url>http://github.com/jayway/awaitility</url>
+    <url>http://github.com/socketbind/awaitility</url>
     <name>Awaitility Parent POM</name>
     <description>A Java DSL for synchronizing asynchronous operations</description>
     <inceptionYear>2010</inceptionYear>
@@ -51,9 +51,9 @@
         <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
     </properties>
     <scm>
-        <url>http://github.com/jayway/awaitility/tree/${scm.branch}</url>
-        <connection>scm:git:git://github.com/jayway/awaitility.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jayway/awaitility.git</developerConnection>
+        <url>http://github.com/socketbind/awaitility/tree/${scm.branch}</url>
+        <connection>scm:git:git://github.com/socketbind/awaitility.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/socketbind/awaitility.git</developerConnection>
       <tag>HEAD</tag>
   </scm>
     <mailingLists>
